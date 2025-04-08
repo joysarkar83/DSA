@@ -10,7 +10,7 @@ int reverseArray(int array[], int size){
 }
 
 int main(){
-    int array[] = {1,2,3,4,5,6,7,8,9};
+    int array[] = {1,2,3,4,5,6,7,8,9,10};
     int arraySize = sizeof(array)/sizeof(int);
 
     reverseArray(array, arraySize);
