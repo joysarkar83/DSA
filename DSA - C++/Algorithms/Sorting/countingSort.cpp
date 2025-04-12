@@ -3,7 +3,7 @@
 #include <climits>
 using namespace std;
 
-//create a temp array that stores the freq of elems in main array; then changes the main array and puts elems, freq no. of times
+//Create a temp array that stores the freq of elems in main array; then changes the main array and puts elems, freq no. of times
 
 void countingSortAscending(vector<int> &nums){
     int minVal = INT_MAX, maxVal = INT_MIN;     //Figuring out the max and min values for proper ranging
@@ -12,7 +12,7 @@ void countingSortAscending(vector<int> &nums){
         minVal = min(minVal, nums[i]);
     }
 
-    int freq[maxVal+1] = {0};                   //Creating the frequency array
+    int freq[maxVal+1] = {0};                   //Creating the frequency array ; NOTE: maxVal+1
     for(int i=0; i<nums.size(); i++){
         freq[nums[i]]++;
     }
