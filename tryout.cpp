@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-// #include <iostream>
+// #include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 // bool comp(pair<int, int> p1, pair<int, int> p2){
@@ -36,10 +36,15 @@ using namespace std;
 // }
 
 
+// int main(){
+//     string str = "123";
+//     do{
+//         cout << str << "\n";
+//     } while(next_permutation(str.begin(), str.end()));
+//     return 0;
+// }
+
 int main(){
-    string str = "123";
-    do{
-        cout << str << "\n";
-    } while(next_permutation(str.begin(), str.end()));
+    cout<<~(1);
     return 0;
 }
