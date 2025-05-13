@@ -16,6 +16,7 @@ class BankAccount{
     void deposit(int amount){
         balance += amount;
         cout<<"Amount deposited\n";
+        getBalance();
     }
 
     void withdraw(int amount){

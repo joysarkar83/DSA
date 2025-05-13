@@ -5,26 +5,16 @@
 using namespace std;
 
 bool isSimilar(string word1, string word2){
-    //Given Length same, we'll check only type and count no. of discontinuencies
-    vector<bool> exists1(26, false), exists2(26, false);
+    // Check if both words have the same character frequencies
+    vector<int> exists1(26, 0), exists2(26, 0);
     for(char c:word1){
-        exists1[c - 'a'] = true;
+        exists1[c - 'a']++;
     }
     for(char c:word2){
-        exists2[c - 'a'] = true;
+        exists2[c - 'a']++;
     }
 
-    if(exists1 != exists2){
-        return false;
-    }
-
-    int count = 0;
-    for(int i=0; i<word1.size(); i++){
-        if(word1[i] != word2[i]){
-            count++;
-        }
-    }
-    if(count == 2 || count == 0){
+    if(exists1 == exists2){
         return true;
     }
     return false;

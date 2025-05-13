@@ -21,7 +21,7 @@ int clearRange(int num, int lowRange, int highRange){
 int main(){
     int num = 15;
     int lowRange = 1;
-    int highRange = 3;
+    int highRange = 2;
 
     cout<<clearRange(num, lowRange, highRange);
 
