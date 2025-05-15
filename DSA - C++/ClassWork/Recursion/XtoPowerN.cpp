@@ -15,12 +15,11 @@ int power(int x, int n){
     if(n==0){
         return 1;
     }
-    if(n%2 == 0){
-        return (power(x,n/2) * power(x,n/2));
-    }
-    else if(n%2 == 1){
-        return (x * power(x,n/2) * power(x,n/2));
-    }
+    int half = power(x, n / 2);
+    if (n % 2 == 0)
+        return half * half;
+    else
+        return x * half * half;
 }
 
 int main(){
