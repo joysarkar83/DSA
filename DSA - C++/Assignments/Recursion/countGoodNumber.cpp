@@ -1,26 +1,21 @@
 #include <iostream>
-#include <cmath>
 using namespace std;
 
-int answer = 1;
-
-int countGoodNumber(long long n){
+int countGoodNumbers(long long n) {
     if(n==0){
-        return answer % (1000000007);
+        return 1;
     }
     if((n-1)%2==1){
-        answer *= 4;
-        countGoodNumber(n-1);
+        return (((long long)4 * countGoodNumbers(n-1))%1000000007);        
     }
     else{
-        answer *= 5;
-        countGoodNumber(n-1);
+        return (((long long)5 * countGoodNumbers(n-1))%1000000007);        
     }
 }
 
 int main(){
 
-    cout<<countGoodNumber(50);
+    cout<<countGoodNumbers(50);
 
     return 0;
 }
