@@ -1,19 +1,32 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 
-long long int reverse(int num){
-    unsigned long long int reversedNum=0;
-    int i=num;
-    if(num<0){
-        i*=(-1);
+int reverse(int x){
+    long long int reversedX = 0;
+    bool isNegative;
+    if(x < 0){
+        isNegative = true;
+        x *= (-1);
+    }else{
+        isNegative = false;
     }
-    for(i; i>0; i/=10){
-        reversedNum = reversedNum*10 + (i%10);
+
+    while(x > 0){
+        reversedX = reversedX*10 + x%10;
+        x = x/10;
     }
-    if(num<0){
-        return reversedNum*(-1);
+
+    if(isNegative){
+        reversedX = reversedX * (-1);
     }
-    return reversedNum;
+
+    if((reversedX < ((-1)*pow(2,31))) || (reversedX > (pow(2,31)-1))){
+        return 0;
+    }
+    else{
+        return reversedX;
+    }
 }
 
 int main(){
