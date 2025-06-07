@@ -16,6 +16,8 @@ void merge(vector<int>& array, int stIdx, int midIdx, int endIdx){
         else{
             temp.emplace_back(array[j++]);
         }
+
+        // array[i]<=array[j] ? temp.emplace_back(array[i++]):temp.emplace_back(array[j++]);
     }
     
     while(i<=midIdx){                           //runs if left array contains some elements
