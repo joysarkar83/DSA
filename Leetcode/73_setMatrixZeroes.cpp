@@ -5,23 +5,30 @@ using namespace std;
 void setZeroes(vector<vector<int>>& matrix) {
     if(matrix.empty()) return;
 
-    int nCols = matrix[0].size();
-    int nRows = matrix.size();
+    int rowSize = matrix.size(), colSize = matrix[0].size();
+    vector<int> zeroRow, zeroCol;
 
-    vector<int> zeroRows();
-    vector<int> zeroColumns;
-
-    for(int i=0; i<nRows; i++){
-        for(int j=0; j<nCols; j++){
+    //Getting indexs with zeroes
+    for(int i=0; i<rowSize; i++){
+        for(int j=0; j<colSize; j++){
             if(matrix[i][j] == 0){
-                zeroRows.emplace_back(i);
-                zeroColumns.emplace_back(j);
+                zeroRow.emplace_back(i);
+                zeroCol.emplace_back(j);
             }
         }
     }
 
-
-
+    //Converting zero rows and columns
+    for(int i=0; i<zeroRow.size(); i++){
+        for(int j=0; j<colSize; j++){
+            matrix[zeroRow[i]][j] = 0;
+        }
+    }
+    for(int i=0; i<zeroCol.size(); i++){
+        for(int j=0; j<rowSize; j++){
+            matrix[j][zeroCol[i]] = 0;
+        }
+    }
     return;
 }
 
