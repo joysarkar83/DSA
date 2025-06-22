@@ -2,30 +2,32 @@
 #include <vector>
 using namespace std;
 
-void findSubsets(vector<int> nums, vector<vector<int>>& ans, vector<int> subset){
-    if(nums.size() == 0){
+void findSubsets(vector<int>& nums, int index, vector<vector<int>>& ans, vector<int>& subset){
+    if(index == nums.size()){
         ans.push_back(subset);
         return;
     }
-
-    vector<int> next(nums.begin()+1, nums.end());
-
+    
     //Yes
-    findSubsets(next, ans, subset.emplace_back(nums[0]));
+    subset.emplace_back(nums[index]);
+    findSubsets(nums, index+1, ans, subset);
     
     //No
-    findSubsets(next, ans, subset);
+    subset.pop_back();
+    findSubsets(nums, index+1, ans, subset);
 
 }
 
 vector<vector<int>> subsets(vector<int>& nums) {
     vector<vector<int>> ans;
-    findSubsets(nums, ans, {});
+    vector<int> subset;
+    findSubsets(nums, 0, ans, subset);
     return ans;
 }
 
 int main(){
-    vector<int> nums = {1,2,3};
+    // vector<int> nums = {1,2,3};
+    vector<int> nums = {0,1};
     vector<vector<int>> subs = subsets(nums);
 
     for(int i=0; i<subs.size(); i++){
