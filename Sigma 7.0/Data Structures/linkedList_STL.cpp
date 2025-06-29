@@ -22,6 +22,8 @@ int main(){
     ll.pop_front();
     ll.pop_back();
     printList(ll);
+    ll.insert(++ll.begin(), 5);
+    printList(ll);
 
     return 0;
 }
