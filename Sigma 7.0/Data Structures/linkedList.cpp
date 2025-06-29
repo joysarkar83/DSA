@@ -11,21 +11,20 @@ public:
         next = NULL;
     }
 
-    ~Node(){
-        // cout<<"Deleting -> "<<data<<"\n";
-        if(next != NULL){
-            delete next;
-            next = NULL;
-        }
-    }
+    // ~Node(){
+    //     cout<<"Deleting -> "<<data<<"\n";
+    //     if(next != NULL){
+    //         delete next;
+    //         next = NULL;
+    //     }
+    // }
 };
 
 class List{
 public:
     Node* head;
     Node* tail;
-    
-    //
+
     List(){
         head = NULL;
         tail = NULL;
@@ -164,36 +163,59 @@ public:
         }
         // cout<<"List Deleted\n";
     }
-
-    //Q: Find and remove and Nth node from end.
-    void removeNth(int n){
-        int size = getSize();
-
-        if(n > size || n <= 0){
-            return;
-        }
-
-        // Case 1: Deleting the head
-        if(n == size){
-            Node* toDelete = head;
-            head = head->next;
-            delete toDelete;
-            return;
-        }
-
-        // Case 2: Delete from middle or end
-        Node* ptr = head;
-        for(int i=0; i<size-n-1; i++){
-            ptr = ptr->next;
-        }
-
-        Node* toDelete = ptr->next;
-        ptr->next = ptr->next->next;
-        toDelete->next = NULL;
-        delete toDelete;
-        return;
-    }
 };
+
+Node* merge(Node* leftHead, Node* rightHead){
+    List sortedList;
+    Node* leftPtr = leftHead, *rightPtr = rightHead;
+    while(leftPtr!=NULL && rightPtr!=NULL){
+        if(leftPtr->data <= rightPtr->data){
+            sortedList.push_back(leftPtr->data);
+            leftPtr = leftPtr->next;
+        }
+        else{
+            sortedList.push_back(rightPtr->data);
+            rightPtr = rightPtr->next;
+        }
+    }
+    
+    while(leftPtr != NULL){
+        sortedList.push_back(leftPtr->data);
+        leftPtr = leftPtr->next;
+    }
+    
+    while(rightPtr != NULL){
+        sortedList.push_back(rightPtr->data);
+        rightPtr = rightPtr->next;
+    }
+
+    return sortedList.head;
+}
+
+Node* sort(Node* head){
+    //Base Case: Single element when head points to NULL
+    if(head == NULL || head->next == NULL){
+        return head;
+    }
+
+    //To get the position to subdivide
+    Node* slowPtr = head, *fastPtr = head, *prevSlowPtr = NULL;
+    while(fastPtr != NULL && fastPtr->next != NULL){
+        prevSlowPtr = slowPtr;
+        slowPtr = slowPtr->next;
+        fastPtr = fastPtr->next->next;
+    }
+
+    //Divide into 2 halves
+    prevSlowPtr->next = NULL;
+
+    //Recursively divide both the halves into single elements
+    Node* left = sort(head);
+    Node* right = sort(slowPtr);
+
+    //Calls the merge function that takes 2 sorted linked lists and creates a single linked list
+    return merge(left, right);
+}
 
 bool isCycle(Node* head){
     Node* slowPtr = head, *fastPtr = head;
@@ -206,7 +228,6 @@ bool isCycle(Node* head){
     }
     return false;
 }
-
 
 void breakCycle(Node* head){
     //Check for cycle
@@ -243,15 +264,13 @@ void breakCycle(Node* head){
     
 int main(){
     List ll;
-    ll.push_front(3);
-    ll.push_front(2);
-    ll.push_front(1);
     ll.push_back(4);
-    ll.push_back(5);
-    ll.tail->next = ll.head;
-    cout<<isCycle(ll.head)<<"\n";
-    breakCycle(ll.head);
+    ll.push_back(3);
+    ll.push_back(2);
+    ll.push_back(1);
+    ll.push_back(9);
     ll.printList();
-        
+    ll.head = sort(ll.head);
+    ll.printList();
     return 0;
 }
