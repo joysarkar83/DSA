@@ -25,8 +25,6 @@ public:
     Node* head;
     Node* tail;
     
-    
-    
     //
     List(){
         head = NULL;
