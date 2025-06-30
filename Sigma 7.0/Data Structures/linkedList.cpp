@@ -11,13 +11,13 @@ public:
         next = NULL;
     }
 
-    // ~Node(){
-    //     cout<<"Deleting -> "<<data<<"\n";
-    //     if(next != NULL){
-    //         delete next;
-    //         next = NULL;
-    //     }
-    // }
+    ~Node(){
+        // cout<<"Deleting -> "<<data<<"\n";
+        if(next != NULL){
+            delete next;
+            next = NULL;
+        }
+    }
 };
 
 class List{
@@ -166,55 +166,62 @@ public:
 };
 
 Node* merge(Node* leftHead, Node* rightHead){
-    List sortedList;
-    Node* leftPtr = leftHead, *rightPtr = rightHead;
-    while(leftPtr!=NULL && rightPtr!=NULL){
+    Node dummy(0);
+    Node* tail = &dummy;
+
+    Node* leftPtr = leftHead, * rightPtr = rightHead;
+
+    while(leftPtr != NULL && rightPtr != NULL){
         if(leftPtr->data <= rightPtr->data){
-            sortedList.push_back(leftPtr->data);
+            tail->next = leftPtr;
+            tail = tail->next;
             leftPtr = leftPtr->next;
         }
         else{
-            sortedList.push_back(rightPtr->data);
+            tail->next = rightPtr;
+            tail = tail->next;
             rightPtr = rightPtr->next;
         }
     }
     
     while(leftPtr != NULL){
-        sortedList.push_back(leftPtr->data);
+        tail->next = leftPtr;
+        tail = tail->next;
         leftPtr = leftPtr->next;
     }
     
     while(rightPtr != NULL){
-        sortedList.push_back(rightPtr->data);
+        tail->next = rightPtr;
+        tail = tail->next;
         rightPtr = rightPtr->next;
     }
-
-    return sortedList.head;
+    
+    Node* sortedHead = dummy.next;
+    dummy.next = NULL;
+    return sortedHead;
 }
 
-Node* sort(Node* head){
-    //Base Case: Single element when head points to NULL
+Node* mergeSort(Node* head){
     if(head == NULL || head->next == NULL){
         return head;
     }
 
-    //To get the position to subdivide
-    Node* slowPtr = head, *fastPtr = head, *prevSlowPtr = NULL;
+    Node* slowPtr = head, *fastPtr = head, *prev = NULL;
+
     while(fastPtr != NULL && fastPtr->next != NULL){
-        prevSlowPtr = slowPtr;
+        prev = slowPtr;
         slowPtr = slowPtr->next;
         fastPtr = fastPtr->next->next;
     }
 
-    //Divide into 2 halves
-    prevSlowPtr->next = NULL;
+    if(prev != NULL){
+        prev->next = NULL;
+    }
 
-    //Recursively divide both the halves into single elements
-    Node* left = sort(head);
-    Node* right = sort(slowPtr);
+    Node* leftSorted = mergeSort(head);
+    Node* rightSorted = mergeSort(slowPtr);
 
-    //Calls the merge function that takes 2 sorted linked lists and creates a single linked list
-    return merge(left, right);
+    return merge(leftSorted, rightSorted);
 }
 
 bool isCycle(Node* head){
@@ -269,8 +276,9 @@ int main(){
     ll.push_back(2);
     ll.push_back(1);
     ll.push_back(9);
+    ll.push_back(69);
     ll.printList();
-    ll.head = sort(ll.head);
+    ll.head = mergeSort(ll.head);
     ll.printList();
     return 0;
 }
