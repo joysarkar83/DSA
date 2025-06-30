@@ -268,17 +268,63 @@ void breakCycle(Node* head){
         fastPtr->next = NULL;
     }
 }
-    
+
+Node* zigZagLL(Node* head){
+    //Get the mid index
+    Node* slowPtr = head, * fastPtr = head, * prev = NULL;
+
+    while(fastPtr!=NULL && fastPtr->next!=NULL){
+        prev = slowPtr;
+        slowPtr = slowPtr->next;
+        fastPtr = fastPtr->next->next;
+    }
+
+    //Break into halves
+    if(prev!=NULL){
+        prev->next = NULL;
+    }
+
+    //Rotate second half
+    Node* pre = NULL,* cur = slowPtr;
+    while(cur != NULL){
+        Node* nxt = cur->next;
+        cur->next = pre;
+        pre = cur;
+        cur = nxt;
+    }
+
+    //Getting access to the final two linked lists
+    Node* leftHead = head, * rightHead = pre;
+
+    //Making copies for traversal
+    Node* left = leftHead, * right = rightHead;
+
+    //Alternate Merging
+    Node* tail;
+    while(left!=NULL && right!=NULL){
+        Node* leftNext = left->next, * rightNext = right->next;
+        left->next = right;
+        right->next = leftNext;
+        left = leftNext;
+        tail = right;
+        right = rightNext;
+    }
+    tail->next = right;
+    tail = right;
+
+    return head;
+}
+
 int main(){
     List ll;
-    ll.push_back(4);
-    ll.push_back(3);
-    ll.push_back(2);
     ll.push_back(1);
-    ll.push_back(9);
-    ll.push_back(69);
+    ll.push_back(2);
+    ll.push_back(3);
+    ll.push_back(4);
+    ll.push_back(5);
+    // ll.push_back(6);
     ll.printList();
-    ll.head = mergeSort(ll.head);
+    ll.head = zigZagLL(ll.head);
     ll.printList();
     return 0;
 }
