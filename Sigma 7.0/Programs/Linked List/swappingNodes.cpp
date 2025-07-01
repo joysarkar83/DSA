@@ -169,22 +169,23 @@ Node* swapNodes(Node* head, int x, int y){
         curr = curr->next;
     }
 
-
+    //Adjusting head as per its position
     if(xPrev != NULL){
         xPrev->next = yPtr;
     }
     else{
         head = yPtr;
     }
-    
-    if(yPrev != NULL){
-        yPrev->next = xPtr;
+
+    if (xPtr->next == yPtr) { // adjacent x before y
+        yPtr->next = xPtr;
+        xPtr->next = yNext;
     }
     else{
-        head = xPtr;
+        yPtr->next = xNext;
+        yPrev->next = xPtr;
+        xPtr->next = yNext;
     }
-
-//Swapping Logics remaining
 
     return head;
 }
@@ -197,12 +198,12 @@ int main(){
     // ll.push_back(6);
     // ll.push_back(7);
     // ll.push_back(8);
-    ll.push_back(9);
+    // ll.push_back(9);
     ll.push_back(10);
     ll.push_front(2);
     ll.push_front(1);
     ll.printList();
-    ll.head = swapNodes(ll.head, 2, 9);
+    ll.head = swapNodes(ll.head, 1, 10);
     ll.printList();
 
     return 0;
