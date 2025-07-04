@@ -147,7 +147,33 @@ class List{
 };
 
 ListNode* oddEvenList(ListNode* head) {
+    if(head == NULL) return NULL;
     
+    ListNode* even = NULL, * odd = NULL, *temp = head->next;
+    ListNode* ptr = head;
+
+    int tracker = 0;
+
+    while(ptr!=NULL){
+        if(tracker%2 == 0){
+            if(even!=NULL){
+                even->next = ptr;
+            }
+            even = ptr;
+            ptr = ptr->next;
+            even->next = NULL;
+        }else{
+            if(odd!=NULL){
+                odd->next = ptr;
+            }
+            odd = ptr;
+            ptr = ptr->next;
+            odd->next = NULL;
+        }
+        tracker++;
+    }
+    even->next = temp;
+    return head;
 }
 
 int main(){
