@@ -26,7 +26,7 @@ void squareToCulry(string& str){
 }
 
 int main(){
-    string str = "[[1,1,1],[1,1,0],[1,0,1]]";
+    string str = "[[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]";
 
     squareToCulry(str);
 
