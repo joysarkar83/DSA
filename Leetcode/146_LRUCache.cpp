@@ -4,6 +4,8 @@
 #include <unordered_map>
 using namespace std;
 
+// Implememtating using custom Doubly Linked List
+
 class Node{
     public:
     int data;
@@ -19,7 +21,7 @@ class doublyLinkedList{
     public:
 
     Node* head, * tail;
-    
+
     doublyLinkedList(){
         head = tail = NULL;
     }
@@ -138,22 +140,23 @@ class LRUCache {
     }
     
     void put(int key, int value) {
-        if(size == capacity){
-            data.erase(cache.front());
-            cache.pop_front();
-            size--;
+        if(cache.find(key) != cache.end()){
+            cache[key].first = value;
+            dll.remove(cache[key].second);
+            dll.push_back(key);
+            cache[key].second = dll.tail;
         }
-        if(size<capacity){
-            if(data.find(key) == data.end()){
-                data[key] = value;
-                size++;
+        else{
+            if(size == capacity){
+                cache.erase(dll.front());
+                dll.pop_front();
+                size--;
             }
-            else{
-                data[key] = value;
-            }
-            cache.push_back(key);
+
+            dll.push_back(key);
+            cache[key] = {value, dll.tail};
+            size++;
         }
-        cout<<"Cache TOP: "<<cache.front()<<"\n";
     }
 };
 
