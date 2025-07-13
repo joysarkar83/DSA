@@ -21,12 +21,12 @@ void squareToCulry(string& str){
             str[i] = '}';
         }
     }
-    addNewline(str, n);
+    // addNewline(str, n);
     cout<<str;
 }
 
 int main(){
-    string str = "[[1,3,1],[1,5,1],[4,2,1]]";
+    string str = "[[1,3],[2,2],[3,1]]";
 
     squareToCulry(str);
 
