@@ -47,7 +47,18 @@ TreeNode* buildTree(vector<int> nodes){
 
 // APPROACH 2 - 0(n)
 pair<int,int> treeDiameter(TreeNode* root){
+    if(root == NULL){
+        return {0, 0};
+    }
 
+    pair<int, int> leftInfo = treeDiameter(root->left);         //LD, LH
+    pair<int, int> rightInfo = treeDiameter(root->right);       //RD, RH
+
+    int currDiameter = leftInfo.second + rightInfo.second + 1;
+    int finalDiameter = max(max(leftInfo.first, rightInfo.first), currDiameter);
+    int currHeight = max(leftInfo.second, rightInfo.second) + 1;
+
+    return {finalDiameter, currHeight};
 }
 
 int main(){
