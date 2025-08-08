@@ -1,46 +1,47 @@
 #include <iostream>
 #include <string>
 #include <stack>
+#include <algorithm>
 using namespace std;
 
-string removeKdigits(string& num, int k) {
-    string res;
-
-    int n = num.size();
+string removeKdigits(string num, int k) {
     stack<char> track;
 
-    for(int i=0; i<n; i++){
-        if(track.empty()){
-            track.push(num[i]);
-        }
-        
-        while(!track.empty() && (track.top() >= num[i]) && (k!=0)){
+    //Adding elements in the array
+    for (char digit : num) {
+        while (!track.empty() && k > 0 && track.top() > digit) {
             track.pop();
             k--;
         }
-        if(i<n) track.push(num[i++]);
-        
-        while(i<n && (k==0 || track.top() < num[i])){
-            track.push(num[i++]);
-        }
+        track.push(digit);
     }
 
-    while(!track.empty()){
-        cout<<track.top()<<"\n";
+    //Removing k elements from the end
+    while (k > 0 && !track.empty()) {
+        track.pop();
+        k--;
+    }
+
+    //Building the string
+    string res;
+    while (!track.empty()) {
         res += track.top();
         track.pop();
     }
+    reverse(res.begin(), res.end());
 
-    n = res.size();
-    for(int i=0; i<n/2; i++){
-        swap(res[i], res[n-i-1]);
-    }
-    return res;
+    //Removing initial zeroes if any
+    int pos = 0;
+    while (pos < res.size() && res[pos] == '0') pos++;
+    res = res.substr(pos);
+
+    return res.empty() ? "0" : res;
 }
 
+
 int main(){
-    string num = "10200";
-    int k = 1;
+    string num = "1432219";
+    int k = 3;
 
     cout<<removeKdigits(num, k);
 
