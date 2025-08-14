@@ -9,7 +9,7 @@ public:
     TreeNode *left, *right;
 
     TreeNode(int val){
-        this,val = val;
+        this->val = val;
         left = right = NULL;
     }
 };
