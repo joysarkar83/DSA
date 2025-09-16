@@ -8,10 +8,7 @@ int removeDuplicates(vector<int>& nums){
             nums[++postIdx] = nums[preIdx];
         }
     }
-    for(postIdx; postIdx<n-1; postIdx++){
-        nums.pop_back();
-    }
-    return nums.size();
+    return postIdx + 1;
 }
 
 int main(){
