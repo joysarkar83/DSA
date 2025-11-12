@@ -1,45 +1,98 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 using namespace std;
 
-class TreeNode{
-public:
-    int val;
-    TreeNode* left, * right;
+// void bubbleSort(vector<int>& nums){
+//     int n = nums.size();
+//     bool reqSort = false;
+//     for(int i=0; i<n-1; i++){
+//         for(int j=1; j<n-i; j++){
+//             if(nums[j] < nums[j-1]){
+//                 swap(nums[j], nums[j-1]);
+//                 reqSort = true;
+//             }
+//         }
+//         if(!reqSort){
+//             break;
+//         }
+//     }
+// }
 
-    TreeNode(int val){
-        this->val = val;
-        left = right = NULL;
-    }
-};
+// void selectionSort(vector<int>& nums){
+//     int n = nums.size();
+//     for(int i=0; i<n-1; i++){
+//         int currMin = i;
+//         for(int j=i+1; j<n; j++){
+//             if(nums[j] < nums[currMin]){
+//                 currMin = j;
+//             }
+//         }
+//         swap(nums[i], nums[currMin]);
+//     }
+// }
 
-class Tree{
-public:
-    TreeNode* root;
-    int idx;
+// void insertionSort(vector<int>& nums){
+//     int n = nums.size();
+//     for(int i=1; i<n; i++){
+//         for(int j=i; j>0; j--){
+//             if(nums[j-1] > nums[j]){
+//                 swap(nums[j-1], nums[j]);
+//             }
+//             else{
+//                 break;
+//             }
+//         }
+//     }
+// }
 
-    Tree(){
-        idx = -1;
-        root = NULL;
-    }
+// void bubbleSort(vector<int>& nums){
+//     int n = nums.size();
+//     bool reqSorting = false;
+//     for(int i=0; i<n-1; i++){
+//         for(int j=1; j<n-i; j++){
+//             if(nums[j-1] > nums[j]){
+//                 swap(nums[j-1], nums[j]);
+//                 reqSorting = true;
+//             }
+//         }
+//         if(!reqSorting){
+//             break;
+//         }
+//     }
+// }
 
-    TreeNode* buildTree(TreeNode* root, vector<int> nodes, int& idx){
-        idx++;
-        if(nodes[idx] == -1){
-            return NULL;
+// void selectionSort(vector<int>& nums){
+//     int n = nums.size();
+//     for(int i=0; i<n-1; i++){
+//         int minIdx = i;
+//         for(int j=i+1; j<n; j++){
+//             if(nums[j] < nums[minIdx]){
+//                 minIdx = j;
+//             }
+//         }
+//         swap(nums[i], nums[minIdx]);
+//     }
+// }
+
+void insertionSort(vector<int>& nums){
+    int n = nums.size();
+    for(int i=1; i<n; i++){
+        for(int j=i; j>0; j--){
+            if(nums[j] < nums[j-1]){
+                swap(nums[j], nums[j-1]);
+            }
         }
-
-        root->val = nodes[idx];
-        idx++;
-        buildTree(root->left, nodes, idx);
-        idx++;
-        buildTree(root->right, nodes, idx);
-        return root;
     }
-};
+}
 
 int main(){
+    vector<int> nums = {9,8,7,6,5,4,3,2,1};
+    insertionSort(nums);
+
+    for(int i=0; i<nums.size(); i++){
+        cout<<nums[i]<<" ";
+    }
+    cout<<"\n";
 
     return 0;
 }
