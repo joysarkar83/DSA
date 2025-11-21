@@ -1,98 +1,86 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
-// void bubbleSort(vector<int>& nums){
-//     int n = nums.size();
-//     bool reqSort = false;
-//     for(int i=0; i<n-1; i++){
-//         for(int j=1; j<n-i; j++){
-//             if(nums[j] < nums[j-1]){
-//                 swap(nums[j], nums[j-1]);
-//                 reqSort = true;
-//             }
-//         }
-//         if(!reqSort){
-//             break;
-//         }
-//     }
-// }
+int main() {
+    int n;
+    cout << "Enter number of vertices: ";
+    cin >> n;
 
-// void selectionSort(vector<int>& nums){
-//     int n = nums.size();
-//     for(int i=0; i<n-1; i++){
-//         int currMin = i;
-//         for(int j=i+1; j<n; j++){
-//             if(nums[j] < nums[currMin]){
-//                 currMin = j;
-//             }
-//         }
-//         swap(nums[i], nums[currMin]);
-//     }
-// }
+    // Adjacency matrix input
+    vector<vector<int>> adjMat(n, vector<int>(n));
 
-// void insertionSort(vector<int>& nums){
-//     int n = nums.size();
-//     for(int i=1; i<n; i++){
-//         for(int j=i; j>0; j--){
-//             if(nums[j-1] > nums[j]){
-//                 swap(nums[j-1], nums[j]);
-//             }
-//             else{
-//                 break;
-//             }
-//         }
-//     }
-// }
+    cout << "\nEnter adjacency matrix (undirected graph):\n";
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> adjMat[i][j];
+        }
+    }
 
-// void bubbleSort(vector<int>& nums){
-//     int n = nums.size();
-//     bool reqSorting = false;
-//     for(int i=0; i<n-1; i++){
-//         for(int j=1; j<n-i; j++){
-//             if(nums[j-1] > nums[j]){
-//                 swap(nums[j-1], nums[j]);
-//                 reqSorting = true;
-//             }
-//         }
-//         if(!reqSorting){
-//             break;
-//         }
-//     }
-// }
+    // Count vertices
+    cout << "\nNumber of vertices: " << n << endl;
 
-// void selectionSort(vector<int>& nums){
-//     int n = nums.size();
-//     for(int i=0; i<n-1; i++){
-//         int minIdx = i;
-//         for(int j=i+1; j<n; j++){
-//             if(nums[j] < nums[minIdx]){
-//                 minIdx = j;
-//             }
-//         }
-//         swap(nums[i], nums[minIdx]);
-//     }
-// }
+    // Count edges (each edge counted twice in matrix)
+    int edgeCount = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (adjMat[i][j] == 1) edgeCount++;
+        }
+    }
+    cout << "Number of edges: " << edgeCount << endl;
 
-void insertionSort(vector<int>& nums){
-    int n = nums.size();
-    for(int i=1; i<n; i++){
-        for(int j=i; j>0; j--){
-            if(nums[j] < nums[j-1]){
-                swap(nums[j], nums[j-1]);
+    // Adjacency List
+    vector<vector<int>> adjList(n);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (adjMat[i][j] == 1) {
+                adjList[i].push_back(j);
             }
         }
     }
-}
 
-int main(){
-    vector<int> nums = {9,8,7,6,5,4,3,2,1};
-    insertionSort(nums);
-
-    for(int i=0; i<nums.size(); i++){
-        cout<<nums[i]<<" ";
+    cout << "\nAdjacency Matrix:\n";
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cout << adjMat[i][j] << " ";
+        }
+        cout << endl;
     }
-    cout<<"\n";
+
+    cout << "\nAdjacency List:\n";
+    for (int i = 0; i < n; i++) {
+        cout << i << ": ";
+        for (int nbr : adjList[i]) {
+            cout << nbr << " ";
+        }
+        cout << endl;
+    }
+
+    // Spanning Tree using BFS
+    vector<int> parent(n, -1);
+    vector<bool> visited(n, false);
+    queue<int> q;
+
+    int start = 0;   // start BFS from vertex 0
+    visited[start] = true;
+    q.push(start);
+
+    cout << "\nSpanning Tree Edges:\n";
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+
+        for (int nbr : adjList[node]) {
+            if (!visited[nbr]) {
+                visited[nbr] = true;
+                parent[nbr] = node;
+                q.push(nbr);
+
+                cout << node << " - " << nbr << endl;
+            }
+        }
+    }
 
     return 0;
 }
