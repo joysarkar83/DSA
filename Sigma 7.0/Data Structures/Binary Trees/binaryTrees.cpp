@@ -2,38 +2,84 @@
 #include <vector>
 using namespace std;
 
-class Node{
+class TreeNode{
 public:
-    int data;
-    Node* left, * right;
+    int val;
+    TreeNode* left, * right;
 
-    Node(int data){
-        this->data = data;
+    TreeNode(int val){
+        this->val = val;
         left = right = NULL;
     }
 };
 
-static int idx = -1;
-
-Node* buildTree(vector<int> nodes){
-    idx++;
-
-    if(nodes[idx] == -1){
-        return NULL;
+class BinaryTree{
+public:
+    TreeNode* root = NULL;
+    
+    int i = -1;
+    TreeNode* buildTree(vector<int>& nodes){
+        i++;
+        if(i >= nodes.size() || nodes[i] == -1){
+            return NULL;
+        }
+        TreeNode* newNode = new TreeNode(nodes[i]);
+        if(root == NULL){
+            root = newNode;
+        }
+        newNode->left = buildTree(nodes);
+        newNode->right = buildTree(nodes);
+        return newNode;
     }
 
-    Node* currNode = new Node(nodes[idx]);
-    currNode->left = buildTree(nodes);
-    currNode->right = buildTree(nodes);
+};
 
-    return currNode;
+void preOrderTraversal(TreeNode* root){
+    if(root == NULL){
+        cout<<-1<<" ";
+        return;
+    }
+
+    cout<<root->val<<" ";
+    preOrderTraversal(root->left);
+    preOrderTraversal(root->right);
+    return;
 }
 
+void inOrderTraversal(TreeNode* root){
+    if(root == NULL){
+        cout<<-1<<" ";
+        return;
+    }
+    
+    inOrderTraversal(root->left);
+    cout<<root->val<<" ";
+    inOrderTraversal(root->right);
+    return;
+}
+
+void postOrderTraversal(TreeNode* root){
+    if(root == NULL){
+        cout<<-1<<" ";
+        return;
+    }
+    
+    postOrderTraversal(root->left);
+    postOrderTraversal(root->right);
+    cout<<root->val<<" ";
+    return;
+}
 
 int main(){
-    vector<int> Nodes = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
+    vector<int> nodes = {1,2,3,4,-1,-1,5,-1,-1,6,-1,-1,7,8,-1,-1,-1};
 
-    cout<<buildTree(Nodes)->data;
+    BinaryTree bt;
+    bt.buildTree(nodes);
 
+    preOrderTraversal(bt.root);
+    cout<<"\n";
+    inOrderTraversal(bt.root);
+    cout<<"\n";
+    postOrderTraversal(bt.root);
     return 0;
 }

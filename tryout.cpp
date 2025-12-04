@@ -1,86 +1,61 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 using namespace std;
 
-int main() {
-    int n;
-    cout << "Enter number of vertices: ";
-    cin >> n;
+class TreeNode{
+public:
+    int val;
+    TreeNode *left, *right;
+    TreeNode(int val){
+        this->val = val;
+        left = right = NULL;
+    }
+};
 
-    // Adjacency matrix input
-    vector<vector<int>> adjMat(n, vector<int>(n));
+class BST{
+public:
+    TreeNode* root = NULL;
 
-    cout << "\nEnter adjacency matrix (undirected graph):\n";
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            cin >> adjMat[i][j];
+    TreeNode* insert(TreeNode* root, int& val){
+        if(root == NULL){
+            return new TreeNode(val);
         }
+        
+        if(root->val < val){
+            root->right = insert(root->right, val);
+        }
+        else{
+            root->left = insert(root->left, val);
+        }
+        return root;
     }
 
-    // Count vertices
-    cout << "\nNumber of vertices: " << n << endl;
-
-    // Count edges (each edge counted twice in matrix)
-    int edgeCount = 0;
-    for (int i = 0; i < n; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (adjMat[i][j] == 1) edgeCount++;
-        }
-    }
-    cout << "Number of edges: " << edgeCount << endl;
-
-    // Adjacency List
-    vector<vector<int>> adjList(n);
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            if (adjMat[i][j] == 1) {
-                adjList[i].push_back(j);
+    void buildBST(vector<int>& nodes){
+        for(int& i:nodes){
+            if(i == -1){
+                continue;
             }
+            root = insert(root, i);
         }
     }
+};
 
-    cout << "\nAdjacency Matrix:\n";
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            cout << adjMat[i][j] << " ";
-        }
-        cout << endl;
+void inOrder(TreeNode* root){
+    if(root == NULL){
+        return;
     }
 
-    cout << "\nAdjacency List:\n";
-    for (int i = 0; i < n; i++) {
-        cout << i << ": ";
-        for (int nbr : adjList[i]) {
-            cout << nbr << " ";
-        }
-        cout << endl;
-    }
+    inOrder(root->left);
+    cout<<root->val<<" ";
+    inOrder(root->right);
+}
 
-    // Spanning Tree using BFS
-    vector<int> parent(n, -1);
-    vector<bool> visited(n, false);
-    queue<int> q;
+int main(){
+    vector<int> nodes = {1,2,3,4,-1,-1,5,-1,-1,6,-1,-1,7,8,-1,-1,-1};
+    BST bst;
+    bst.buildBST(nodes);
 
-    int start = 0;   // start BFS from vertex 0
-    visited[start] = true;
-    q.push(start);
-
-    cout << "\nSpanning Tree Edges:\n";
-    while (!q.empty()) {
-        int node = q.front();
-        q.pop();
-
-        for (int nbr : adjList[node]) {
-            if (!visited[nbr]) {
-                visited[nbr] = true;
-                parent[nbr] = node;
-                q.push(nbr);
-
-                cout << node << " - " << nbr << endl;
-            }
-        }
-    }
+    inOrder(bst.root);
 
     return 0;
 }
