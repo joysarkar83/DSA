@@ -2,16 +2,16 @@
 #include <vector>
 using namespace std;
 
-int binarySearch(int array[], int size, int find){
+int binarySearch(int array[], int size, int target){
     int start = 0, end = size-1;
 
     while (start<=end){
         
         int mid = (start+end)/2;
 
-        if(find == array[mid]){
+        if(target == array[mid]){
             return mid;
-        } else if(array[mid] < find){  //2nd Half
+        } else if(array[mid] < target){  //2nd Half
             start = mid+1;
         } else{                        //1st Half
             end = mid-1;
@@ -50,9 +50,9 @@ int binarySearch(int array[], int size, int find){
 int main(){
     int array[] = {2,4,6,8,10,12,14,16,18,20};
     int arraySize = sizeof(array)/sizeof(int);
-    int toFind = 12;
+    int totarget = 12;
 
-    cout<<"Found at index: "<<binarySearch(array, arraySize, toFind);
+    cout<<"Found at index: "<<binarySearch(array, arraySize, totarget);
 
     return 0;
 }

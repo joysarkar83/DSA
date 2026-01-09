@@ -10,14 +10,6 @@ public:
         this->data = data;
         next = NULL;
     }
-
-    ~Node(){
-        // cout<<"Deleting -> "<<data<<"\n";
-        if(next != NULL){
-            delete next;
-            next = NULL;
-        }
-    }
 };
 
 class List{
