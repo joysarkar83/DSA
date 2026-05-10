@@ -1,15 +1,16 @@
 #include <iostream>
 using namespace std;
-int main(){
-    int len;
-    cout<<"Enter length: ";
-    cin>>len;
 
-    for(int i=1; i<=len; i++){
+int main(){
+    int n;
+    cin >> n;
+
+    for(int i=n; i>0; i--){
         for(int j=1; j<=i; j++){
-            cout<<i<<" ";
+            cout<<j<<" ";
         }
         cout<<"\n";
     }
+
     return 0;
 }
