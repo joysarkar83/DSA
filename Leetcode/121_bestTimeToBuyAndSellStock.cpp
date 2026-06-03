@@ -1,27 +1,23 @@
-//BRUTE FORCE APPROACH
-
 #include <iostream>
 #include <vector>
 using namespace std;
 
-int maxProfit(vector<int> prices){
-    int maxDiff = INT16_MAX;
-    for(int i=0; i<prices.size(); i++){
-        for(int j=i; j<prices.size(); j++){
-            int currDiff = prices[i] - prices[j];
-            if(currDiff < maxDiff){
-                maxDiff = currDiff;
-            }
-        }
+int maxProfit(vector<int>& prices) {
+    int n = prices.size();
+
+    vector<int> bestBuyPrice(n, 0);
+    bestBuyPrice[0] = prices[0];
+    for (int i = 1; i < n; i++) {
+        bestBuyPrice[i] = min(bestBuyPrice[i - 1], prices[i - 1]);
     }
-    return maxDiff*(-1);
+
+    int maxProfit = INT_MIN;
+    for (int i = 0; i < n; i++) {
+        maxProfit = max(maxProfit, (prices[i] - bestBuyPrice[i]));
+    }
+    return maxProfit;
 }
 
 int main(){
-    // vector<int> prices = {7,1,5,3,6,4};
-    vector<int> prices = {7,6,4,3,1};
-
-    cout<<maxProfit(prices);
-
     return 0;
 }
