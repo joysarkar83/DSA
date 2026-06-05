@@ -1,45 +1,43 @@
 #include <iostream>
-#include <vector>
+#include <queue>
 using namespace std;
 
-class TreeNode{
-public:
+struct TreeNode{
     int val;
     TreeNode* left, * right;
-
     TreeNode(int val){
         this->val = val;
-        left = right = NULL;
+        left = right = nullptr;
     }
 };
 
-static int idx = -1;
+// int maxDepth(TreeNode* root) {
+//     int levels = 0;
+//     if(root == nullptr) return levels;
+//     queue<TreeNode*> q;
+//     q.push(root);
 
-TreeNode* buildTree(vector<int> nodes){
-    idx++;
-    if(nodes[idx] == -1){
-        return NULL;
-    }
-
-    TreeNode* currNode = new TreeNode(nodes[idx]);
-    currNode->left = buildTree(nodes);
-    currNode->right = buildTree(nodes);
-
-    return currNode;
-}
+//     while(!q.empty()){
+//         int levelSize = q.size();
+//         for(int i=0; i<levelSize; i++){
+//             TreeNode* currNode = q.front();
+//             q.pop();
+//             if(currNode->left != nullptr) q.push(currNode->left);
+//             if(currNode->right != nullptr) q.push(currNode->right);
+//         }
+//         levels++;
+//     }
+//     return levels;
+// }
 
 int maxDepth(TreeNode* root) {
-    if(root == NULL){
-        return 0;
-    }
+    if(root == nullptr) return 0;
 
-    int leftHeight = maxDepth(root->left);
-    int rightHeight = maxDepth(root->right);
-
-    return 1 + max(leftHeight, rightHeight);
+    return (1+max(maxDepth(root->left), maxDepth(root->right)));
 }
 
 int main(){
+
 
     return 0;
 }

@@ -4,7 +4,7 @@ using namespace std;
 struct TreeNode{
     int val;
     TreeNode* left, * right;
-    
+
     TreeNode(int val){
         this->val = val;
         left = NULL;
@@ -13,27 +13,21 @@ struct TreeNode{
 };
 
 void PreOrder(TreeNode* root){
-    if(root == NULL){
-        return;
-    }
+    if(root == NULL) return;
     cout<<root->val<<" ";
     PreOrder(root->left);
     PreOrder(root->right);
 }
 
 void InOrder(TreeNode* root){
-    if(root == NULL){
-        return;
-    }
+    if(root == NULL) return;
     InOrder(root->left);
     cout<<root->val<<" ";
     InOrder(root->right);
 }
 
 void PostOrder(TreeNode* root){
-    if(root == NULL){
-        return;
-    }
+    if(root == NULL) return;
     PostOrder(root->left);
     PostOrder(root->right);
     cout<<root->val<<" ";
@@ -42,27 +36,23 @@ void PostOrder(TreeNode* root){
 #include <vector>
 #include <queue>
 vector<vector<int>> LevelOrder(TreeNode* root){
-    if(root ==  NULL){
-        return {};
-    }
+    if(root == NULL) return {};
 
     vector<vector<int>> res;
     queue<TreeNode*> q;
     q.push(root);
 
     while(!q.empty()){
-        int size = q.size();
-        vector<int> level;
-
-        for(int i=0; i<size; i++){
-            TreeNode* node = q.front();
+        int levelSize = q.size();
+        vector<int> currLevel;
+        for(int i=0; i<levelSize; i++){
+            TreeNode* currNode = q.front();
             q.pop();
-
-            level.emplace_back(node->val);
-            if(node->left != NULL) q.push(node->left);
-            if(node->right != NULL) q.push(node->right);
+            currLevel.emplace_back(currNode->val);
+            if(currNode->left != NULL) q.push(currNode->left);
+            if(currNode->right != NULL) q.push(currNode->right);
         }
-        res.emplace_back(level);
+        res.emplace_back(currLevel);
     }
     return res;
 }
@@ -96,7 +86,6 @@ int main(){
         }
         cout<<"\n";
     }
-
 
     return 0;
 }

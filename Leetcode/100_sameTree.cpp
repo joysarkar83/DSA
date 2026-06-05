@@ -1,41 +1,22 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
-class TreeNode{
-public:
+struct TreeNode{
     int val;
     TreeNode* left, * right;
     TreeNode(int val){
         this->val = val;
-        left = right = NULL;
+        left = right = nullptr;
     }
 };
 
-static int idx = -1;
-TreeNode* buildTree(vector<int>& nodes){
-    idx++;
-    if(nodes[idx] == -1) return NULL;
-
-    TreeNode* currNode = new TreeNode(nodes[idx]);
-    currNode->left = buildTree(nodes);
-    currNode->right = buildTree(nodes);
-
-    return currNode;
-}
-
 bool isSameTree(TreeNode* p, TreeNode* q) {
-    if ((p == NULL) && (q == NULL)) return true;
-    if ((p == NULL) || (q == NULL)) return false;
-    if (p->val != q->val) return false;
+    if(p == nullptr || q == nullptr) return (p == q);
 
-    bool leftSame = isSameTree(p->left, q->left);
-    bool rightSame = isSameTree(p->right, q->right);
-
-    return leftSame && rightSame;
+    if(p->val != q->val) return false;
+    return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
 }
 
 int main(){
-
     return 0;
 }
