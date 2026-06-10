@@ -1,38 +1,64 @@
 #include <iostream>
 using namespace std;
 
-ListNode* mergeTwoLists(ListNode* list1, ListNode* list2){
-    if(list1 == NULL){
-        return list2;
+struct ListNode{
+    int val;
+    ListNode* next;
+    ListNode(int val){
+        this->val = val;
+        next = nullptr;
     }
-    if(list2 == NULL){
-        return list1;
+};
+
+ListNode* mergeTwoLists(ListNode* itr1, ListNode* itr2) {
+    ListNode* ptr = nullptr, * newHead = nullptr;
+
+    while(itr1 != nullptr && itr2 != nullptr){
+        ListNode* newNode = new ListNode(-1);
+        if(itr1->val <= itr2->val){
+            newNode->val = itr1->val;
+            itr1 = itr1->next;
+        }else{
+            newNode->val = itr2->val;
+            itr2 = itr2->next;
+        }
+        
+        if(newHead == nullptr){
+            newHead = newNode;
+            ptr = newHead;
+        }else{
+            ptr->next = newNode;
+            ptr = newNode;
+        }
+    }
+    
+    while(itr1 != nullptr){
+        ListNode* newNode = new ListNode(itr1->val);
+        itr1 = itr1->next;
+        
+        if(newHead == nullptr){
+            newHead = newNode;
+            ptr = newHead;
+        }else{
+            ptr->next = newNode;
+            ptr = newNode;
+        }
+    }
+    
+    while(itr2 != nullptr){
+        ListNode* newNode = new ListNode(itr2->val);
+        itr2 = itr2->next;
+        
+        if(newHead == nullptr){
+            newHead = newNode;
+            ptr = newHead;
+        }else{
+            ptr->next = newNode;
+            ptr = newNode;
+        }
     }
 
-    ListNode temp(0);
-    ListNode* tempPtr = &temp;
-    while(list1 != NULL && list2 != NULL){
-        if(list1->val <= list2->val){
-            tempPtr->next = list1;
-            list1 = list1->next;
-        }
-        else{
-            tempPtr->next = list2;
-            list2 = list2->next;
-        }
-        tempPtr = tempPtr->next;
-    }
-    while(list1 != NULL){
-        tempPtr->next = list1;
-        list1 = list1->next;
-        tempPtr = tempPtr->next;
-    }
-    while(list2 != NULL){
-        tempPtr->next = list2;
-        list2 = list2->next;
-        tempPtr = tempPtr->next;
-    }
-    return temp.next;
+    return newHead;
 }
 
 int main(){

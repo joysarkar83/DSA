@@ -1,9 +1,30 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_map>
 #include <algorithm>
 using namespace std;
 
+// Better 2 pointer approach
+int lengthOfLongestSubstring(string s) {
+    int n = s.size();
+    unordered_map<char, int> freq;
+    int st = 0, end = 0, maxLen = 0, currLen = 0;
+    while(end < n){
+        char ch = s[end];
+        freq[ch]++;
+        currLen++;
+        while(freq[ch] > 1){
+            freq[s[st++]]--;
+            currLen--;
+        }
+        maxLen = max(currLen, maxLen);
+        end++;
+    }
+    return maxLen;
+}
+
+// Old Approach
 int lengthOfLongestSubstring(string s){
     int n = s.size(), count = 0, start = 0;
 

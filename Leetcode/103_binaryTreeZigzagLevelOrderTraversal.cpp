@@ -4,78 +4,41 @@
 #include <algorithm>
 using namespace std;
 
-class TreeNode{
-public:
+struct TreeNode{
     int val;
     TreeNode* left, * right;
-
     TreeNode(int val){
         this->val = val;
         left = right = nullptr;
     }
 };
 
-class Tree{
-public:
-    TreeNode* root;
-
-    Tree(){
-        root = nullptr;
-    }
-
-    int i = -1;
-    TreeNode* buildTree(vector<int> nodes){
-        i++;
-        if(i >= nodes.size() || nodes[i] == -1){
-            return nullptr;
-        }
-
-        TreeNode* newNode = new TreeNode(nodes[i]);
-        if(root == nullptr){
-            root = newNode;
-        }
-        newNode->left = buildTree(nodes);
-        newNode->right = buildTree(nodes);
-
-        return newNode;
-    }
-};
-
 vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-    if(root == nullptr) return {};
-
     vector<vector<int>> res;
+    if(root == nullptr) return res;
+    bool rev = 0;
+
     queue<TreeNode*> q;
-    bool fwd = 1;
-    q.emplace(root);
-    q.emplace(nullptr);
-    
+    q.push(root);
     while(!q.empty()){
-        vector<int> currRow;
-        while(q.front()!=nullptr){
-            currRow.emplace_back(q.front()->val);
-            if(q.front()->left != nullptr){
-                q.emplace(q.front()->left);
-            }
-            if(q.front()->right != nullptr){
-                q.emplace(q.front()->right);
-            }
+        int levelSize = q.size();
+        vector<int> currLevel;
+        for(int i=0; i<levelSize; i++){
+            TreeNode* currNode = q.front();
             q.pop();
+            currLevel.emplace_back(currNode->val);
+            if(currNode->left != nullptr) q.push(currNode->left);
+            if(currNode->right != nullptr) q.push(currNode->right);
         }
-        q.pop();
-        if(!q.empty()){
-            q.emplace(nullptr);
+        if(rev){
+            reverse(currLevel.begin(), currLevel.end());
+            rev = 0;
+        }else{
+            rev = 1;
         }
-        if(fwd){
-            res.emplace_back(currRow);
-            fwd = false;
-        }
-        else{
-            reverse(currRow.begin(), currRow.end());
-            res.emplace_back(currRow);
-            fwd = true;
-        }
+        res.emplace_back(currLevel);
     }
+
     return res;
 }
 

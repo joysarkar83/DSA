@@ -1,29 +1,18 @@
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 using namespace std;
 
-// 1,2,3    3
-
 int subarraySum(vector<int>& nums, int k) {
-    int n = nums.size();
-    int st = 0, end = 0;
-    int count = 0, sum = 0;
-
-    while(end < n){
-        sum += nums[end];
-
-        while(sum > k && st <= end){
-            sum -= nums[st];
-            st++;
-        }
-
-        if(sum == k){
-            count++;
-        }
-
-        end++;
+    int n = nums.size(), currSum = 0, res = 0;
+    unordered_map<int, int> hash;
+    for(int i=0; i<n; i++){
+        currSum += nums[i];
+        if(currSum == k) res++;
+        if(hash.count(currSum-k)) res += hash[currSum - k];
+        hash[currSum]++;
     }
-    return count;
+    return res;
 }
 
 int main(){

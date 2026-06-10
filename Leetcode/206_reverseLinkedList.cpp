@@ -1,20 +1,28 @@
 #include <iostream>
 using namespace std;
 
-ListNode* reverseList(ListNode* head) {
-    if(head == NULL){
-        return NULL;
+struct ListNode{
+    int val;
+    ListNode* next;
+    ListNode(int val){
+        this->val = val;
+        next = nullptr;
     }
+};
 
-    ListNode* prev=NULL, *curr=head;
-    while(curr != NULL){
-        ListNode* nxt=curr->next;
+
+ListNode* reverseList(ListNode* head) {
+    if(head == nullptr) return head;
+
+    ListNode* prev = nullptr, * curr = head, * nxt = curr->next;
+    while(prev->next != nullptr){
         curr->next = prev;
         prev = curr;
         curr = nxt;
+        nxt = curr->next;
     }
-    head = prev;
-    return head;
+
+    return prev;
 }
 
 int main(){

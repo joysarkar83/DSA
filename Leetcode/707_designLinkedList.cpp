@@ -1,165 +1,95 @@
 #include <iostream>
 using namespace std;
 
-class Node{
-    public:
-        int val;
-        Node* next;
-
-        Node(int val){
-            this->val = val;
-            next = NULL;
-        }
-
-        ~Node(){
-            if(next != NULL){
-                delete next;
-                next = NULL;
-            }
-        }
+struct MyListNode{
+    int val;
+    MyListNode* next;
+    MyListNode(int val){
+        this->val = val;
+        next = nullptr;
+    }
 };
 
 class MyLinkedList {
 public:
-    Node* head;
-    Node* tail;
-
+    MyListNode* head;
     MyLinkedList() {
-        head = NULL;
-        tail = NULL;
-    }
-
-    int getSize(){
-        if(head == NULL){
-            return 0;
-        }
-
-        Node* ptr = this->head;
-        int sz = 0;
-        while(ptr!=NULL){
-            sz+=1;
-            ptr = ptr->next;
-        }
-        return sz;
+        head = nullptr;
     }
     
     int get(int index) {
-        int sz = this->getSize();
-        if(index < 0 || index >= sz){
-            return -1;
-        }
-    
-        Node* ptr = head;
-        for(int i=0; i<index; i++){
+        if(head == nullptr) return -1;
+
+        int ctr = 0;
+        MyListNode* ptr = head;
+        while(ptr!=nullptr && ctr < index){
             ptr = ptr->next;
+            ctr++;
         }
+        if(ptr == nullptr) return -1;
         return ptr->val;
     }
     
     void addAtHead(int val) {
-        if(head == NULL){
-            Node* newNode = new Node(val);
-            head = newNode;
-            tail = newNode;
-        }
-        else{
-            Node* newNode = new Node(val);
-            newNode->next = head;
-            head = newNode;
-        }
+        MyListNode* newNode = new MyListNode(val);
+        newNode->next = head;
+        head = newNode;
     }
     
     void addAtTail(int val) {
-        if(head == NULL){
-            Node* newNode = new Node(val);
+        MyListNode* newNode = new MyListNode(val);
+        if(head == nullptr){
             head = newNode;
-            tail = newNode;
+            return;
         }
-        else{
-            Node* newNode = new Node(val);
-            tail->next = newNode;
-            tail = newNode;
+        MyListNode* ptr = head;
+        while(ptr->next != nullptr){
+            ptr = ptr->next;
         }
+        ptr->next = newNode;
     }
     
     void addAtIndex(int index, int val) {
-        int sz = this->getSize();
-        if(index < 0 || index > sz){
-            return;
-        }
-
         if(index == 0){
             addAtHead(val);
             return;
         }
 
-        if(index == sz){
-            addAtTail(val);
-            return;
-        }
-        
-        Node* ptr = head;
-        for(int i=1; i<index; i++){
+        int ctr = 1;
+        MyListNode* ptr = head;
+        while(ptr!=nullptr && ctr < index){
             ptr = ptr->next;
+            ctr++;
         }
-        
-        Node* newNode = new Node(val);
+        if(ptr == nullptr) return;
+        MyListNode* newNode = new MyListNode(val);
         newNode->next = ptr->next;
         ptr->next = newNode;
     }
     
     void deleteAtIndex(int index) {
-        int sz = this->getSize();
-        if(index < 0 || index >= sz){
-            return;
-        }
+        if(head == nullptr) return;
 
         if(index == 0){
-            Node* temp = head;
+            MyListNode* toDel = head;
             head = head->next;
-            temp->next = NULL;
-            delete temp;
-
-            if(head == NULL){
-                tail = NULL;
-            }
+            delete toDel;
             return;
         }
-        
-        Node* ptr = head;
-        for(int i=1; i<index; i++){
+
+        int ctr = 1;
+        MyListNode* ptr = head;
+        while(ptr!=nullptr && ctr < index){
             ptr = ptr->next;
+            ctr++;
         }
-
-        Node* temp = ptr->next;
-        ptr->next = temp->next;
-
-        if(temp == tail){
-            tail = ptr;
-        }
-
-        temp->next = NULL;
-        delete temp;
-    }
-
-    void printll(){
-        Node* ptr = head;
-        while(ptr != NULL){
-            cout<<ptr->val<<" -> ";
-            ptr = ptr->next;
-        }
-        cout<<"NULL\n";
+        if(ptr == nullptr || ptr->next == nullptr) return;
+        MyListNode* toDel = ptr->next;
+        ptr->next = ptr->next->next;
+        delete toDel;
     }
 };
 
 int main(){
-    MyLinkedList ll;
-    ll.addAtHead(3);
-    ll.addAtHead(2);
-    ll.addAtHead(1);
-    ll.addAtTail(5);
-    ll.addAtIndex(0, 4);
-    ll.printll();
-
     return 0;
 }
