@@ -1,43 +1,49 @@
 #include <iostream>
 using namespace std;
 
-int calculateSize(ListNode* head){
+struct ListNode{
+    int val;
+    ListNode* next;
+    ListNode(int val){
+        this->val = val;
+        next = nullptr;
+    }
+};
+
+int getSize(ListNode* head){
+    int n = 0;
     ListNode* ptr = head;
-    int n = 0; 
-    while(ptr != NULL){
+    while(ptr != nullptr){
         ptr = ptr->next;
-        n++;
     }
     return n;
 }
 
-ListNode* removeNthFromEnd(ListNode* head, int n) {
-    int sz = calculateSize(head);
+ListNode* removeNthFromEnd(ListNode* head, int k) {
+    if(head == nullptr) return head;
+    int n = getSize(head);
 
-    if(sz == 1){
-        delete head;
-        head = NULL;
+    if(k > n){
+        return head;
+    }else if(n == k){
+        ListNode* toDel = head;
+        head = head->next;
+        delete toDel;
         return head;
     }
+    k = n-k-1;
 
-    if(n == sz){
-        ListNode* ptr = head->next;
-        head->next = NULL;
-        delete head;
-        head = ptr;
-        return head;
+    ListNode* itr = head;
+    while(k--){
+        itr = itr->next;
     }
-
-    ListNode* ptr = head;
-    for(int i=1; i<sz - n; i++){
-        ptr = ptr->next;
-    }
-    ListNode* delNode = ptr->next;
-    ptr->next = delNode->next;
-    delNode->next = NULL;
-    delete delNode;
+    ListNode* toDel = itr->next;
+    itr->next = toDel->next;
+    delete toDel;
+    
     return head;
 }
+
 
 int main(){
 
